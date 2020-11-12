@@ -158,7 +158,7 @@ async function stealFriendWater() {
     }
     if ($.stealFriendList.data && $.stealFriendList.data.friendInfoList && $.stealFriendList.data.friendInfoList.length > 0) {
       for (let item of $.stealFriendList.data.friendInfoList) {
-        if (item.nutrCount >= 3) {
+        if (item.nutrCount >= 1) {
           // console.log(`可以偷的好友的信息::${JSON.stringify(item)}`);
           console.log(`可以偷的好友的信息paradiseUuid::${JSON.stringify(item.paradiseUuid)}`);
           await collectUserNutr(item.paradiseUuid);
