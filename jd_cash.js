@@ -269,8 +269,8 @@ function readShareCode() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (data) {
-            data = JSON.parse(data);
             console.log(`上传助力码结果：${data}`)
+            data = JSON.parse(data);
           }
         }
       } catch (e) {
