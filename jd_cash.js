@@ -269,7 +269,7 @@ function readShareCode() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (data) {
-            console.log(`上传助力码结果：${data}`)
+            console.log(`上传助力码结果：${JSON.stringify(data)}`)
             data = JSON.parse(data);
           }
         }
@@ -295,6 +295,8 @@ function shareCodesFormat() {
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       //$.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
       console.log(`第${$.index}个京东账号上传助力码成功`)
+    } else if(readShareCodeRes && readShareCodeRes.code === 400) {
+      console.log(`第${$.index}个京东账号助力码已存在，请不要重复提交`)
     }
     // $.newShareCodes.map((item, index) => $.newShareCodes[index] = { "inviteCode": item, "shareDate": $.shareDate })
     //console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
