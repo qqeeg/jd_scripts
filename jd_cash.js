@@ -270,8 +270,7 @@ function readShareCode() {
         } else {
           if (data) {
             data = JSON.parse(data);
-            console.log(`上传助力码结果：${data.code}`)
-
+            console.log(`上传助力码结果：${resp}`)
           }
         }
       } catch (e) {
