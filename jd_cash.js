@@ -107,6 +107,7 @@ function index(info=false) {
                 return
               }
               console.log(`您的助力码为${data.data.result.inviteCode}`)
+              $.scode = data.data.result.inviteCode
               let helpInfo = {
                 'inviteCode': data.data.result.inviteCode,
                 'shareDate': data.data.result.shareDate
