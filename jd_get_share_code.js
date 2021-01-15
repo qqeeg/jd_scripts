@@ -675,7 +675,7 @@ function getcash() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if(data.code===0 && data.data.result){
-              console.log(`您的领现金助力码为${data.data.result.inviteCode}`)
+              console.log(`【账号${$.index}（${$.nickName || $.UserName}）签到领现金】${data.data.result.inviteCode}`)
             }
           }
         }
