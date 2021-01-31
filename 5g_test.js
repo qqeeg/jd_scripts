@@ -47,12 +47,12 @@ $.currentCookie = '';
       $.log(`去浏览店铺`);
       await getShopList();
       //await $.wait(300);
-      /*$.log(`去浏览会场`);
+      $.log(`去浏览会场`);
       await getMeetingList();
       $.log(`去浏览商品`);
       await getGoodList();
       $.log(`去浏览店铺`);
-      await getShopList();*/
+      await getShopList();
       
       $.log(`去帮助好友`);
       await myRank(); //领取往期排名奖励
@@ -196,9 +196,7 @@ function getMeetingList() {
           if (data && data['code'] === 200) {
             for (let vo of data.data.meetingList) {
               await browseMeeting(vo['id']);
-                    setTimeout(function(){
-                    getMeetingPrize(vo['id'],$.currentCookie);
-      	},5000)
+              await getMeetingPrize(vo['id']);
             }
           } else {
             $.log(JSON.stringify(data));
@@ -272,9 +270,7 @@ function getGoodList() {
           if (data && data['code'] === 200) {
             for (let vo of data.data.goodsList) {
               await browseGood(vo['id']);
-              setTimeout(function(){
-                    getGoodPrize(vo['id'],$.currentCookie);
-      	},5000)
+              await getGoodPrize(vo['id']);
              // await getGoodPrize(vo['id']);
             }
           } else {
@@ -349,9 +345,7 @@ function getShopList() {
           if (data && data['code'] === 200) {
             for (let vo of data.data) {
               await browseShop(vo['shopId']);
-              setTimeout(function(){
-                    getShopPrize(vo['shopId'],$.currentCookie);
-      	},5000)
+              await getShopPrize(vo['shopId']);
               //await getShopPrize(vo['shopId']);
             }
           } else {
