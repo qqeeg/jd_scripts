@@ -5,7 +5,7 @@
  * @Github: https://github.com/whyour
  * @Date: 2021-01-30 20:00:00
  * @LastEditors: whyour
- * @LastEditTime: 2021-01-30 22:59:09
+ * @LastEditTime: 2021-01-31 15:12:00
  活动地址: https://rdcseason.m.jd.com/#/index
 
  # quanx
@@ -29,7 +29,6 @@ $.currentCookie = '';
 !(async () => {
   if (!getCookies()) return;
   for (let i = 0; i < $.cookieArr.length; i++) {
-  	//if(i==0)continue;
     $.currentCookie = $.cookieArr[i];
     if ($.currentCookie) {
       const userName = decodeURIComponent(
@@ -40,27 +39,30 @@ $.currentCookie = '';
       $.beans = 0;
       $.score = 0;
       $.risk = false;
+      await getToday();
+      if ($.risk) {
+        $.result.push('活动太火爆了，快去买买买吧');
+        await showMsg();
+        return;
+      }
+      await getHelp();
+      await submitInviteId(userName);
       $.log(`去浏览会场`);
       await getMeetingList();
       $.log(`去浏览商品`);
       await getGoodList();
       $.log(`去浏览店铺`);
       await getShopList();
-      //await $.wait(300);
+      await $.wait(1000);
       $.log(`去浏览会场`);
       await getMeetingList();
       $.log(`去浏览商品`);
       await getGoodList();
       $.log(`去浏览店铺`);
       await getShopList();
-      
       $.log(`去帮助好友`);
       await myRank(); //领取往期排名奖励
       await getActInfo();
-      await getHelp();
-      await submitInviteId(userName);
-      await createAssistUser();
-      await createAssistUser();
       await createAssistUser();
       await createAssistUser();
       await createAssistUser();
@@ -234,9 +236,9 @@ function browseMeeting(id) {
   });
 }
 
-function getMeetingPrize(id,ck) {
+function getMeetingPrize(id) {
   return new Promise(resolve => {
-    $.post(taskPostUrl('task/getMeetingPrize', `meetingId=${id}`,ck), async (err, resp, data) => {
+    $.post(taskPostUrl('task/getMeetingPrize', `meetingId=${id}`), async (err, resp, data) => {
       try {
         if (err) {
           $.log(`${$.name} API请求失败，${JSON.stringify(err)}`);
@@ -245,7 +247,7 @@ function getMeetingPrize(id,ck) {
           if (data && data['code'] === 200) {
             $.beans += parseInt(data.data.jdNum);
             $.score += parseInt(data.data.integralNum);
-            $.log(`${new Date().getHours()}：${new Date().getMinutes()}：${new Date().getSeconds()}---浏览会场获得${data.data.jdNum}京豆，${data.data.integralNum}积分`);
+            $.log(`获得${data.data.jdNum}京豆，${data.data.integralNum}积分`);
           } else {
             $.log(JSON.stringify(data));
           }
@@ -271,7 +273,6 @@ function getGoodList() {
             for (let vo of data.data.goodsList) {
               await browseGood(vo['id']);
               await getGoodPrize(vo['id']);
-             // await getGoodPrize(vo['id']);
             }
           } else {
             $.log(JSON.stringify(data));
@@ -309,9 +310,9 @@ function browseGood(id) {
   });
 }
 
-function getGoodPrize(id,ck) {
+function getGoodPrize(id) {
   return new Promise(resolve => {
-    $.get(taskUrl('task/getGoodsPrize', `skuId=${id}`,ck), async (err, resp, data) => {
+    $.get(taskUrl('task/getGoodsPrize', `skuId=${id}`), async (err, resp, data) => {
       try {
         if (err) {
           $.log(`${$.name} API请求失败，${JSON.stringify(err)}`);
@@ -320,7 +321,7 @@ function getGoodPrize(id,ck) {
           if (data && data['code'] === 200) {
             $.beans += parseInt(data.data.jdNum);
             $.score += parseInt(data.data.integralNum);
-            $.log(`${new Date().getHours()}：${new Date().getMinutes()}：${new Date().getSeconds()}---浏览商品获得${data.data.jdNum}京豆，${data.data.integralNum}积分`);
+            $.log(`获得${data.data.jdNum}京豆，${data.data.integralNum}积分`);
           } else {
             $.log(JSON.stringify(data));
           }
@@ -346,7 +347,6 @@ function getShopList() {
             for (let vo of data.data) {
               await browseShop(vo['shopId']);
               await getShopPrize(vo['shopId']);
-              //await getShopPrize(vo['shopId']);
             }
           } else {
             $.log(JSON.stringify(data));
@@ -384,9 +384,9 @@ function browseShop(id) {
   });
 }
 
-function getShopPrize(id,ck) {
+function getShopPrize(id) {
   return new Promise(resolve => {
-    $.post(taskPostUrl('task/getShopPrize', `shopId=${id}`,ck), async (err, resp, data) => {
+    $.post(taskPostUrl('task/getShopPrize', `shopId=${id}`), async (err, resp, data) => {
       try {
         if (err) {
           $.log(`${$.name} API请求失败，${JSON.stringify(err)}`);
@@ -395,7 +395,7 @@ function getShopPrize(id,ck) {
           if (data && data['code'] === 200) {
             $.beans += parseInt(data.data.jdNum);
             $.score += parseInt(data.data.integralNum);
-            $.log(`${new Date().getHours()}：${new Date().getMinutes()}：${new Date().getSeconds()}---浏览商店获得${data.data.jdNum}京豆，${data.data.integralNum}积分`);
+            $.log(`获得${data.data.jdNum}京豆，${data.data.integralNum}积分`);
           } else {
             $.log(JSON.stringify(data));
           }
@@ -559,13 +559,13 @@ function taskUrl(function_id, body) {
   };
 }
 
-function taskPostUrl(function_id, body = '',cookie = $.currentCookie) {
+function taskPostUrl(function_id, body = '') {
   let url = `${JD_API_HOST}${function_id}`;
   return {
     url,
     body: body,
     headers: {
-      Cookie: cookie,
+      Cookie: $.currentCookie,
       origin: 'https://rdcseason.m.jd.com',
       referer: 'https://rdcseason.m.jd.com/',
       'Content-Type': 'application/x-www-form-urlencoded',
