@@ -731,7 +731,7 @@ function goldvideo(timeout = 40000) {
     })
 }
 
-function hongbaoyu(timeout = 40000) {
+function hongbaoyu() {
     return new Promise((resolve) => {
         setTimeout(() => {
             header = iboxpayheaderVal.replace(`${token}`, `${TOKEN}`).replace(`${oldtime}`, `${tts()}`)
