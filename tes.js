@@ -310,10 +310,10 @@ async function all() {
         await hdid(); //活动id
         await goldcoin(); //金币信息
         await coin(); //账户信息
-        await sylist(); //收益列表
+       /* await sylist(); //收益列表
         await splimit(); //视频上限
         await newcashlist(); //提现查询
-        await cashlist(); //今日提现查询
+        await cashlist(); //今日提现查询*/
         await hongbaoyu();
        /* if (!cashcs.amount && CASH >= 1 && $.coin.data.balance / 100 >= CASH) {
             await withdraw(); //提现
