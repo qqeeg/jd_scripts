@@ -760,7 +760,7 @@ function hongbaoyu() {
                     resolve()
                 }
             })
-        }, timeout)
+        })
     })
 }
 
