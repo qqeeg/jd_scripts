@@ -283,6 +283,7 @@ async function all() {
         );
         return;
     }
+    for (let ii = 0; ii < 20; ii++) {
     for (let i = 0; i < Length; i++) {
 
         if (COOKIE.iboxpayheaderVal) {
@@ -293,8 +294,6 @@ async function all() {
             iboxpayheaderVal = iboxpayheaderArr[i];
             refreshtokenVal = refreshtokenArr[i];
         }
-
-
         traceid = JSON.parse(iboxpayheaderVal)["traceid"];
         token = JSON.parse(iboxpayheaderVal)["token"];
         oldtime = traceid.substring(20, 33);
@@ -351,7 +350,7 @@ async function all() {
 
         }*/
 
-    }
+    }}
 }
 //通知
 function msgShow() {
